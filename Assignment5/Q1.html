@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        let num1= window.prompt("Enter first number  ")
+        if(num1 <0){
+            window.alert("Plz enter valid number (positive)")
+            num1=window.prompt("Enter first number")
+        }
+
+         let num2= window.prompt("Enter second number  ")
+        if(num2 <0){
+            window.alert("Plz enter valid number (positive)")
+            num2=window.prompt("Enter second number")
+        }
+
+         let num3= window.prompt("Enter third number ")
+        if(num3 <0){
+            window.alert("Plz enter valid number(positive)")
+            num3=window.prompt("Enter third number")
+        }
+
+       let num =  Math.max(num1,num2,num3) ;
+
+       window.alert("Largest number is "+num)
+    </script>
+</body>
+</html>
