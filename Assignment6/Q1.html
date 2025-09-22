@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Date and Greeting</title>
+</head>
+<body>
+  <h2 id="date"></h2>
+  <h2 id="greeting"></h2>
+  <h2 id="daysLeft"></h2>
+
+  <script>
+    const today = new Date();
+    console.log(today)
+
+    const options = {
+       weekday: 'long', 
+       year: 'numeric', 
+       month: 'long', 
+       day: 'numeric' 
+      };
+      
+    document.getElementById("date").innerHTML = today.toLocaleDateString("en-US", options);
+
+    
+    const hour = today.getHours();
+    if (hour < 12) {
+      document.getElementById("greeting").innerHTML = "Good Morning!";
+    } else if (hour < 18) {
+      document.getElementById("greeting").innerHTML = "Good Afternoon!";
+    } else {
+      document.getElementById("greeting").innerHTML = "Good Evening!";
+    }
+
+    
+    const endOfYear = new Date(today.getFullYear(), 11, 31);
+    const diffTime = endOfYear - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("daysLeft").innerHTML = diffDays + " days left until the end of the year.";
+  </script>
+</body>
+</html>
