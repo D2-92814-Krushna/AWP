@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunbeam Registration (jQuery)</title>
+    <style>
+        h1 { text-align: center; }
+        .error-message { color: red; font-size: 12px; margin-left: 10px; }
+        table { margin: auto; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Sunbeam Registration Form (jQuery)</h1>
+    <form id="Form">
+        <table>
+            <tr>
+                <td><label for="name">Name</label></td>
+                <td>
+                    <input type="text" id="name" maxlength="10" required>
+                    <span id="nameError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="dob">BirthDate</label></td>
+                <td>
+                    <input type="date" id="dob" required>
+                    <span id="dobError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">Email</label></td>
+                <td>
+                    <input type="email" id="email" required>
+                    <span id="emailError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="password">Password</label></td>
+                <td>
+                    <input type="password" id="password" required>
+                    <span id="passwordError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="address">Address</label></td>
+                <td>
+                    <textarea id="address" required></textarea>
+                    <span id="addressError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td>
+                    <input type="radio" name="gender" value="Male"> Male 
+                    <input type="radio" name="gender" value="Female"> Female
+                    <span id="genderError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="photo">Upload Photo</label></td>
+                <td>
+                    <input type="file" id="photo" required>
+                    <span id="photoError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="course">Select your Course</label></td>
+                <td>
+                    <select id="course" required>
+                        <option value="">Select Course</option>
+                        <option value="DAC">DAC</option>
+                        <option value="DBDA">DBDA</option>
+                        <option value="AI">AI</option>
+                    </select>
+                    <span id="courseError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Skill Set</td>
+                <td>
+                    <input type="checkbox" name="skill" value="Java"> Java 
+                    <input type="checkbox" name="skill" value="CPP"> CPP
+                    <input type="checkbox" name="skill" value="OS"> OS 
+                    <span id="skillError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input id="done" type="submit" value="Register">
+                    <input type="reset" value="Clear">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+    $(document).ready(function(){
+        $("#Form").submit(function(e){
+            e.preventDefault();
+            let isValid = true;
+
+            // Name validation
+            let name = $("#name").val().trim();
+            if (!/^[A-Za-z]+$/.test(name)) {
+                $("#nameError").text("Only alphabets allowed (max 10)");
+                isValid = false;
+            } else { $("#nameError").text(""); }
+
+            // DOB validation
+            let dob = $("#dob").val();
+            if (dob === "") {
+                $("#dobError").text("Birthdate required");
+                isValid = false;
+            } else {
+                let dobDate = new Date(dob);
+                let today = new Date();
+                let age = today.getFullYear() - dobDate.getFullYear();
+                if (dobDate >= today || age < 18) {
+                    $("#dobError").text("Must be past date & age >=18");
+                    isValid = false;
+                } else { $("#dobError").text(""); }
+            }
+
+            // Password validation
+            let password = $("#password").val();
+            if (password.length < 8 || !password.includes('#') || !/\d/.test(password)) {
+                $("#passwordError").text("Password must be >8 chars, include # and a digit");
+                isValid = false;
+            } else { $("#passwordError").text(""); }
+
+            // Email validation
+            if ($("#email").val().trim() === "") {
+                $("#emailError").text("Email required");
+                isValid = false;
+            } else { $("#emailError").text(""); }
+
+            // Address validation
+            if ($("#address").val().trim() === "") {
+                $("#addressError").text("Address required");
+                isValid = false;
+            } else { $("#addressError").text(""); }
+
+            // Gender validation
+            if ($("input[name='gender']:checked").length === 0) {
+                $("#genderError").text("Select gender");
+                isValid = false;
+            } else { $("#genderError").text(""); }
+
+            // Photo validation
+            if ($("#photo").val() === "") {
+                $("#photoError").text("Upload a photo");
+                isValid = false;
+            } else { $("#photoError").text(""); }
+
+            // Course validation
+            if ($("#course").val() === "") {
+                $("#courseError").text("Select course");
+                isValid = false;
+            } else { $("#courseError").text(""); }
+
+            // Skill validation
+            if ($("input[name='skill']:checked").length === 0) {
+                $("#skillError").text("Select at least one skill");
+                isValid = false;
+            } else { $("#skillError").text(""); }
+
+            if (isValid) {
+                let userData = {
+                    name,
+                    dob,
+                    email: $("#email").val(),
+                    password,
+                    address: $("#address").val(),
+                    gender: $("input[name='gender']:checked").val(),
+                    course: $("#course").val(),
+                    skills: $("input[name='skill']:checked").map(function(){return this.value;}).get()
+                };
+                sessionStorage.setItem("userData", JSON.stringify(userData));
+                alert("Form submitted & data saved in sessionStorage!");
+                window.location.href = "display.html";
+            }
+        });
+    });
+    </script>
+</body>
+</html>

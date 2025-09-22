@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Enter Employee Names</h1>
+
+   
+        <input id ="name" type="text" placeholder="Enter employee name">
+        <button onclick="addEmployee()">Add Names</button>
+        <button onclick="sortAndDisplay()">Sort and Display</button>
+
+
+
+    <h2>Sorted Employee Names : </h2>
+    <ul id = "list" ></ul>
+
+
+
+    <script>
+        const arr1 = [] ;
+        function addEmployee(){
+            const name = document.getElementById('name').value;
+            const list = document.getElementById('list')
+            if(arr1.length <6){
+                list.innerHTML +=` <li>${name}</li>`    
+                arr1.push(name); 
+                document.getElementById('name').value=" ";
+                
+            }else{
+                window.alert("You have already entered 6 names")
+            }
+        
+        }
+
+        function sortAndDisplay(){
+            
+            arr1.sort() ;
+            const list = document.getElementById('list')
+            list.innerHTML = '' ;
+            
+            for(let i=0;i<arr1.length;i++){
+            
+                list.innerHTML +=` <li>${arr1[i]}</li>`    
+
+            }
+            
+        }
+
+
+    </script>
+</body>
+</html>
